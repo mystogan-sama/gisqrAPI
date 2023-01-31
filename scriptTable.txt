@@ -1,0 +1,61 @@
+USE [V@LID49ASETV5_CMS2022]
+GO
+
+/****** Object:  Table [dbo].[WEB_KIBLOKASI]    Script Date: 22/11/2022 13:52:25 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[WEB_KIBLOKASI](
+	[ID] [bigint] IDENTITY(1,1) NOT NULL,
+	[IDBRG] [nchar](10) NOT NULL,
+	[UNITKEY] [nchar](36) NOT NULL,
+	[ASETKEY] [nchar](15) NOT NULL,
+	[KET] [nvarchar](max) NULL,
+	[METODE] [nvarchar](max) NULL,
+	[LOKASI] [nvarchar](max) NULL,
+	[DATECREATE] [datetime] NULL,
+	[KDKIB] [nchar](2) NOT NULL,
+	[URLIMG] [nvarchar](max) NULL,
+ CONSTRAINT [PK_WEB_KIBLOK1] PRIMARY KEY CLUSTERED 
+(
+	[IDBRG] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+
+================================================================================================================================================
+
+USE [V@LID49ASETV5_CMS2022]
+GO
+
+/****** Object:  Table [dbo].[WEB_USER]    Script Date: 22/11/2022 13:53:31 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[WEB_USER](
+	[Id] [bigint] IDENTITY(1,1) NOT NULL,
+	[Username] [nchar](50) NULL,
+	[PwdHash] [varbinary](200) NULL,
+	[PwdSalt] [varbinary](200) NULL,
+	[Nama] [nchar](100) NULL,
+	[DateCreate] [datetime] NULL,
+	[LastToken] [nvarchar](max) NULL,
+	[Role] [nchar](10) NULL,
+ CONSTRAINT [PK_WEB_USER] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+================================================================================================================================================
+
+
+
