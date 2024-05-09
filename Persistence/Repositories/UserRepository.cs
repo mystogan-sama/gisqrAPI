@@ -7,7 +7,7 @@ using MicroOrm.Dapper.Repositories.SqlGenerator;
 
 namespace gisAPI.Persistence.Repositories
 {
-    [Table("WEB_USER")]
+    [Table("WEB_USERS")]
     public class User
     {
         [Key, Identity]
@@ -16,6 +16,7 @@ namespace gisAPI.Persistence.Repositories
         public byte[] PwdHash { get; set; }
         public byte[] PwdSalt { get; set; }
         public string Nama { get; set; }
+        public string UNITKEY { get; set; }
         public DateTime? DateCreate { get; set; }
         public string? LastToken { get; set; }
         public string? Role { get; set; }

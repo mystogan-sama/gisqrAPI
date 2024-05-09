@@ -25,6 +25,7 @@ namespace gisAPI.Auth
         public string? accessToken { get; set; }
         public string? avatar { get; set; }
         public string? email { get; set; }
+        public string? unitkey { get; set; }
     }
 
     public class QrUserDto

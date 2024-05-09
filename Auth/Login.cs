@@ -55,12 +55,13 @@ namespace gisAPI.Auth
                 var result = _mapper.Map<LoginDto>(user);
 
                 result.Id = user.Id;
-                result.Username = user.Username.Trim();
+                result.Username = user.Username;
                 result.FullName = user.Nama.Trim();
                 result.role = user.Role.Trim();
                 result.avatar = "/img/13-small.d796bffd.png";
                 result.accessToken = _jwt.CreateToken(user);
                 result.email = user.Username.Trim() + "@insaba.co.id";
+                result.unitkey = user.UNITKEY.Trim();
 
 
                 // var hash = new HMACSHA256(Encoding.UTF8.GetBytes("123456binacash123456binacash123456"));

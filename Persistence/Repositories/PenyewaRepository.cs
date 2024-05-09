@@ -10,6 +10,7 @@ namespace gisAPI.Persistence.Repositories
         public string NOSERTIFIKAT { get; set; }
         public string ? TAHUNSERT { get; set; }
         public string NAMA { get; set; }
+        public string ? NMUNIT { get; set; }
         public string ALAMAT { get; set; }
         public string ? ALAMATTANAH { get; set; }
         public string LUAS { get; set; }

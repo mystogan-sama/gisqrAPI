@@ -1,6 +1,7 @@
 using System.Data.SqlClient;
 using Dapper;
 using gisAPI.Persistence.Repositories;
+using gisqrAPI.Persistence.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,6 +38,15 @@ namespace gisAPI.Controllers
             using var connection = new SqlConnection(_config.GetConnectionString("Default"));
             var Penyewa = await connection.QueryAsync<PenyewaRepository>("select a.IDBRG,a.METODE,a.LOKASI, b.NMASET,b.KDASET, c.NMUNIT, a.KET, a.URLIMG from WEB_Penyewa a join DAFTASET b on a.ASETKEY=b.ASETKEY join DAFTUNIT c on a.UNITKEY=c.UNITKEY join JNSKIB d on a.KDKIB=d.KDKIB where  d.KDKIB LIKE '" + KDKIB + "%'",
                     new { ID = KDKIB });
+            return Ok(Penyewa);
+        }
+
+        [HttpGet("tahun/{IDBRG}")]
+        public async Task<ActionResult<TahunRepository>> GetEnddateSewa(string IDBRG)
+        {
+            using var connection = new SqlConnection(_config.GetConnectionString("Default"));
+            var Penyewa = await connection.QueryAsync<TahunRepository>("SELECT DISTINCT SUBSTRING(ENDDATE, 1,4) as TAHUNAKHIR FROM WEB_SEWA WHERE IDBRG = '"+ IDBRG +"'",
+                    new { ID = IDBRG });
             return Ok(Penyewa);
         }
 

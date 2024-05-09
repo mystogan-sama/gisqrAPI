@@ -4,7 +4,7 @@ namespace gisAPI.Persistence.Repositories
 {
     public class SertifikatRepository
     {
-        public long ID { get; set; }
+        public long ? ID { get; set; }
         [Key]
  
         public string IDBRG { get; set; }

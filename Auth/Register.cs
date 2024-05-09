@@ -17,6 +17,8 @@ namespace gisAPI.Auth
             public string Username { get; set; }
             public string Password { get; set; }
             public string Nama { get; set; }
+            public string UNITKEY { get; set; }
+            public string Role { get; set; }
         }
 
         public class Validator : AbstractValidator<Command>
@@ -58,7 +60,7 @@ namespace gisAPI.Auth
                 model.PwdHash = hash;
                 model.PwdSalt = salt;
                 model.DateCreate = DateTime.Now;
-                model.Role = "Admin";
+                // model.Role = "Admin";
 
                 Console.WriteLine(JsonConvert.SerializeObject(model).ToString());
 

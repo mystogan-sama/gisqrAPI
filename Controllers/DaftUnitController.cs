@@ -27,7 +27,7 @@ namespace gisAPI.Controllers
 
         private static async Task<IEnumerable<DaftUnitRepository>> SelectAllDaftUnits(SqlConnection connection)
         {
-            return await connection.QueryAsync<DaftUnitRepository>("select * from DAFTUNIT");
+            return await connection.QueryAsync<DaftUnitRepository>("select a.UNITKEY, a.NMUNIT,a.KDLEVEL from DAFTUNIT a WHERE a.KDLEVEL in ('3', '4')");
         }
 
         // [Authorize]

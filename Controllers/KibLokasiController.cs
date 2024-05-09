@@ -27,7 +27,7 @@ namespace gisAPI.Controllers
 
         private static async Task<IEnumerable<KibLokasiRepository>> SelectAllKibLokasi(SqlConnection connection)
         {
-            return await connection.QueryAsync<KibLokasiRepository>("select a.ID, a.IDBRG,a.METODE,a.LOKASI,a.ASETKEY,a.UNITKEY,a.KDKIB,a.TAHUN, b.NMASET,b.KDASET, c.NMUNIT, a.KET, a.URLIMG from WEB_KIBLOKASI a join DAFTASET b on a.ASETKEY=b.ASETKEY join DAFTUNIT c on a.UNITKEY=c.UNITKEY join JNSKIB d on a.KDKIB=d.KDKIB");
+            return await connection.QueryAsync<KibLokasiRepository>("select a.ID, a.IDBRG,a.METODE,a.LOKASI,a.ASETKEY,a.UNITKEY,a.KDKIB,a.TAHUN, b.NMASET,b.KDASET, c.NMUNIT, a.KET, a.URLIMG, a.URLIMG1, a.URLIMG2, a.URLIMG3 from WEB_KIBLOKASI a join DAFTASET b on a.ASETKEY=b.ASETKEY join DAFTUNIT c on a.UNITKEY=c.UNITKEY join JNSKIB d on a.KDKIB=d.KDKIB");
         }
 
         // [Authorize]
@@ -35,8 +35,17 @@ namespace gisAPI.Controllers
         public async Task<ActionResult<KibLokasiRepository>> GetKibLokasibyKdKib(string KDKIB)
         {
             using var connection = new SqlConnection(_config.GetConnectionString("Default"));
-            var kibLokasi = await connection.QueryAsync<KibLokasiRepository>("select a.ID,a.IDBRG,a.ASETKEY,a.UNITKEY,a.KDKIB,a.TAHUN,a.METODE,a.LOKASI, b.NMASET,b.KDASET, c.NMUNIT, a.KET, a.URLIMG from WEB_KIBLOKASI a join DAFTASET b on a.ASETKEY=b.ASETKEY join DAFTUNIT c on a.UNITKEY=c.UNITKEY join JNSKIB d on a.KDKIB=d.KDKIB where  d.KDKIB LIKE '" + KDKIB + "%'",
+            var kibLokasi = await connection.QueryAsync<KibLokasiRepository>("select a.ID,a.IDBRG,e.NOFIKAT, a.ASETKEY,a.UNITKEY,a.KDKIB,a.TAHUN,a.METODE,a.LOKASI, b.NMASET,b.KDASET, c.NMUNIT, a.KET, a.URLIMG, a.URLIMG1, a.URLIMG2, a.URLIMG3 from WEB_KIBLOKASI a join DAFTASET b on a.ASETKEY=b.ASETKEY join DAFTUNIT c on a.UNITKEY=c.UNITKEY join JNSKIB d on a.KDKIB=d.KDKIB LEFT JOIN ASET_KIBSPESIFIKASI e on a.IDBRG=e.IDBRG where  d.KDKIB LIKE '" + KDKIB + "%'",
                     new { ID = KDKIB });
+            return Ok(kibLokasi);
+        }
+
+        [HttpGet("{UNITKEY}")]
+        public async Task<ActionResult<KibLokasiRepository>> GetKibLokasibyUnit(string UNITKEY)
+        {
+            using var connection = new SqlConnection(_config.GetConnectionString("Default"));
+            var kibLokasi = await connection.QueryAsync<KibLokasiRepository>("SELECT a.ID,a.IDBRG,a.ASETKEY,a.UNITKEY,a.KDKIB,a.TAHUN,a.METODE,a.LOKASI, b.NMASET,b.KDASET, c.NMUNIT, a.KET, a.URLIMG, a.URLIMG1, a.URLIMG2, a.URLIMG3 from WEB_KIBLOKASI a LEFT JOIN DAFTASET b ON a.ASETKEY=b.ASETKEY LEFT JOIN DAFTUNIT c ON a.UNITKEY=c.UNITKEY WHERE c.UNITKEY LIKE '" + UNITKEY + "%'",
+                    new { ID = UNITKEY });
             return Ok(kibLokasi);
         }
 
@@ -45,7 +54,7 @@ namespace gisAPI.Controllers
         public async Task<ActionResult<KibLokasiRepository>> GetKibLokasibyUnitKey(string KDKIB, string UNITKEY)
         {
             using var connection = new SqlConnection(_config.GetConnectionString("Default"));
-            var kibLokasi = await connection.QueryAsync<KibLokasiRepository>("select a.ID,a.IDBRG,a.ASETKEY,a.UNITKEY,a.KDKIB,a.TAHUN,a.METODE,a.LOKASI, b.NMASET,b.KDASET, c.NMUNIT, a.KET, a.URLIMG from WEB_KIBLOKASI a join DAFTASET b on a.ASETKEY=b.ASETKEY join DAFTUNIT c on a.UNITKEY=c.UNITKEY join JNSKIB d on a.KDKIB=d.KDKIB where d.KDKIB LIKE '" + KDKIB + "%' and c.UNITKEY LIKE '" + UNITKEY + "%'",
+            var kibLokasi = await connection.QueryAsync<KibLokasiRepository>("select a.ID,a.IDBRG,e.NOFIKAT, a.ASETKEY,a.UNITKEY,a.KDKIB,a.TAHUN,a.METODE,a.LOKASI, b.NMASET,b.KDASET, c.NMUNIT, a.KET, a.URLIMG, a.URLIMG1, a.URLIMG2, a.URLIMG3 from WEB_KIBLOKASI a join DAFTASET b on a.ASETKEY=b.ASETKEY join DAFTUNIT c on a.UNITKEY=c.UNITKEY join JNSKIB d on a.KDKIB=d.KDKIB LEFT JOIN ASET_KIBSPESIFIKASI e on a.IDBRG=e.IDBRG where d.KDKIB LIKE '" + KDKIB + "%' and c.UNITKEY LIKE '" + UNITKEY + "%'",
                     new { ID = UNITKEY });
             return Ok(kibLokasi);
         }
@@ -55,7 +64,7 @@ namespace gisAPI.Controllers
         public async Task<ActionResult<KibLokasiRepository>> GetKibLokasibyAsetKey(string KDKIB, string UNITKEY, string ASETKEY)
         {
             using var connection = new SqlConnection(_config.GetConnectionString("Default"));
-            var kibLokasi = await connection.QueryAsync<KibLokasiRepository>("select a.ID,a.IDBRG,a.ASETKEY,a.UNITKEY,a.KDKIB,a.TAHUN,a.METODE,a.LOKASI, b.NMASET,b.KDASET, c.NMUNIT, a.KET, a.URLIMG from WEB_KIBLOKASI a join DAFTASET b on a.ASETKEY=b.ASETKEY join DAFTUNIT c on a.UNITKEY=c.UNITKEY join JNSKIB d on a.KDKIB=d.KDKIB where d.KDKIB LIKE '" + KDKIB + "%' and c.UNITKEY LIKE '" + UNITKEY + "%' and b.ASETKEY LIKE '" + ASETKEY + "%'",
+            var kibLokasi = await connection.QueryAsync<KibLokasiRepository>("select a.ID,a.IDBRG,e.NOFIKAT, a.ASETKEY,a.UNITKEY,a.KDKIB,a.TAHUN,a.METODE,a.LOKASI, b.NMASET,b.KDASET, c.NMUNIT, a.KET, a.URLIMG, a.URLIMG1, a.URLIMG2, a.URLIMG3 from WEB_KIBLOKASI a join DAFTASET b on a.ASETKEY=b.ASETKEY join DAFTUNIT c on a.UNITKEY=c.UNITKEY join JNSKIB d on a.KDKIB=d.KDKIB LEFT JOIN ASET_KIBSPESIFIKASI e on a.IDBRG=e.IDBRG where d.KDKIB LIKE '" + KDKIB + "%' and c.UNITKEY LIKE '" + UNITKEY + "%' and b.ASETKEY LIKE '" + ASETKEY + "%'",
                     new { ID = ASETKEY });
             return Ok(kibLokasi);
         }
@@ -65,7 +74,7 @@ namespace gisAPI.Controllers
         public async Task<ActionResult<KibLokasiRepository>> GetKibLokasibyTahun(string KDKIB, string UNITKEY, string ASETKEY, string TAHUN)
         {
             using var connection = new SqlConnection(_config.GetConnectionString("Default"));
-            var kibLokasi = await connection.QueryAsync<KibLokasiRepository>("select a.ID,a.IDBRG,a.ASETKEY,a.UNITKEY,a.KDKIB,a.TAHUN,a.METODE,a.LOKASI, b.NMASET,b.KDASET, c.NMUNIT, a.KET, a.URLIMG from WEB_KIBLOKASI a join DAFTASET b on a.ASETKEY=b.ASETKEY join DAFTUNIT c on a.UNITKEY=c.UNITKEY join JNSKIB d on a.KDKIB=d.KDKIB where d.KDKIB LIKE '" + KDKIB + "%' and c.UNITKEY LIKE '" + UNITKEY + "%' and b.ASETKEY LIKE '" + ASETKEY + "%' and a.TAHUN LIKE '" + TAHUN + "%'",
+            var kibLokasi = await connection.QueryAsync<KibLokasiRepository>("select a.ID,a.IDBRG,e.NOFIKAT, a.ASETKEY,a.UNITKEY,a.KDKIB,a.TAHUN,a.METODE,a.LOKASI, b.NMASET,b.KDASET, c.NMUNIT, a.KET, a.URLIMG, a.URLIMG1, a.URLIMG2, a.URLIMG3 from WEB_KIBLOKASI a join DAFTASET b on a.ASETKEY=b.ASETKEY join DAFTUNIT c on a.UNITKEY=c.UNITKEY join JNSKIB d on a.KDKIB=d.KDKIB LEFT JOIN ASET_KIBSPESIFIKASI e on a.IDBRG=e.IDBRG where d.KDKIB LIKE '" + KDKIB + "%' and c.UNITKEY LIKE '" + UNITKEY + "%' and b.ASETKEY LIKE '" + ASETKEY + "%' and a.TAHUN LIKE '" + TAHUN + "%'",
                     new { ID = ASETKEY });
             return Ok(kibLokasi);
         }
@@ -76,7 +85,7 @@ namespace gisAPI.Controllers
         {
             // kibBLok.ID = Guid.NewGuid();
             using var connection = new SqlConnection(_config.GetConnectionString("Default"));
-            await connection.ExecuteAsync("insert into WEB_KIBLOKASI (IDBRG, UNITKEY, ASETKEY,TAHUN, KET, METODE, LOKASI, KDKIB, URLIMG) values (@IDBRG, @UNITKEY, @ASETKEY, @TAHUN, @KET, @METODE, @LOKASI, @KDKIB, @URLIMG)", kibLokasi);
+            await connection.ExecuteAsync("insert into WEB_KIBLOKASI (IDBRG, UNITKEY, ASETKEY,TAHUN, KET, METODE, LOKASI, KDKIB, URLIMG, URLIMG1, URLIMG2, URLIMG3) values (@IDBRG, @UNITKEY, @ASETKEY, @TAHUN, @KET, @METODE, @LOKASI, @KDKIB, @URLIMG, @URLIMG1, @URLIMG2, @URLIMG3)", kibLokasi);
             // return CreatedAtAction(nameof(SelectAllKibBLok), new { id = kibBLok.ID }, kibBLok);
             return Ok(await SelectAllKibLokasi(connection));
         }
@@ -87,7 +96,7 @@ namespace gisAPI.Controllers
         {
             // kibBLok.ID = Guid.NewGuid();
             using var connection = new SqlConnection(_config.GetConnectionString("Default"));
-            await connection.ExecuteAsync("UPDATE WEB_KIBLOKASI SET KET = @KET, METODE = @METODE, LOKASI = @LOKASI, URLIMG = @URLIMG WHERE IDBRG = @IDBRG", kibLokasi);
+            await connection.ExecuteAsync("UPDATE WEB_KIBLOKASI SET KET = @KET, METODE = @METODE, LOKASI = @LOKASI, URLIMG = @URLIMG, URLIMG1 = @URLIMG1, URLIMG2 = @URLIMG2, URLIMG3 = @URLIMG3 WHERE IDBRG = @IDBRG", kibLokasi);
             // return CreatedAtAction(nameof(SelectAllKibBLok), new { id = kibBLok.ID }, kibBLok);
             return Ok(await SelectAllKibLokasi(connection));
         }

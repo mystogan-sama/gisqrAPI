@@ -10,6 +10,7 @@
     <PackageReference Include="BoldReports.Net.Core" Version="4.2.68" />
     <PackageReference Include="CrystalDecisions.CrystalReports.Engine" Version="1.0.0" />
     <PackageReference Include="CrystalDecisions.Shared" Version="1.0.0" />
+    <PackageReference Include="CrystalReports.ReportAppServer.ClientDoc" Version="13.0.4001" />
     <PackageReference Include="Dapper.SqlBuilder" Version="2.0.78" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
     <PackageReference Include="flurl" Version="3.0.6" />
