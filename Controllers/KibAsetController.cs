@@ -47,7 +47,7 @@ namespace gisAPI.Controllers
             using var connection = new SqlConnection(_config.GetConnectionString("Default"));
             if (term != null)
             {
-                var kibDLok = await connection.QueryAsync<KibRepository>("select DISTINCT a.ASETKEY, b.NMASET,b.KDASET from (SELECT ak.ASETKEY, ak.UNITKEY, ak.KDKIB FROM ASET_KIB ak WHERE UNITKEY = '"+ UNITKEY +"') a	LEFT JOIN DAFTASET b on a.ASETKEY=b.ASETKEY LEFT JOIN DAFTUNIT c on a.UNITKEY=c.UNITKEY LEFT JOIN JNSKIB d on a.KDKIB=d.KDKIB WHERE d.KDKIB LIKE '" + KDKIB + "%' and b.NMASET LIKE '%" + @term + "%'",
+                var kibDLok = await connection.QueryAsync<KibRepository>("select DISTINCT a.ASETKEY, b.NMASET,b.KDASET from (SELECT ak.ASETKEY, ak.UNITKEY, ak.KDKIB FROM ASET_KIBSPESIFIKASI ak WHERE UNITKEY = '"+ UNITKEY +"') a	LEFT JOIN DAFTASET b on a.ASETKEY=b.ASETKEY LEFT JOIN DAFTUNIT c on a.UNITKEY=c.UNITKEY LEFT JOIN JNSKIB d on a.KDKIB=d.KDKIB WHERE d.KDKIB LIKE '" + KDKIB + "%' and b.NMASET LIKE '%" + @term + "%'",
                     new { term = term });
                 return Ok(kibDLok);
             }
